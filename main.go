@@ -1,23 +1,21 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
-	"os"
-	"runtime"
+	"net/http/httputil"
+	"log"
 )
 
-func indexHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "hello world, I'm running on %s with an %s CPU ",
-		runtime.GOOS, runtime.GOARCH)
-}
-
 func main() {
-	http.HandleFunc("/", indexHandler)
-	hostAndPort := ":8080"
-	// fix for run without firewall warning in window
-	if os.Getenv("GOPRODUCT") != "1" {
-		hostAndPort = "localhost:8080"
-	}
-	http.ListenAndServe(hostAndPort, nil)
+
+	http.ListenAndServe(":8080", &httputil.ReverseProxy{
+		Director: func(r *http.Request) {
+			log.Printf("httplog> %v %v %v (%q)", r.RemoteAddr, r.Method, r.Host, r.RequestURI)
+			r.Header.Set("X-Proxy-Secret", "Secret")
+			r.Header.Set("Host", r.Host)
+			r.URL.Scheme = "http"
+			r.URL.Host = "localhost:8081"
+			r.RequestURI = ""
+		},
+	})
 }
