@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"net/http"
-	"fmt"
 	"runtime"
 )
 
@@ -18,12 +17,11 @@ func main() {
 			OS: runtime.GOOS,
 			Arch:runtime.GOARCH,
 		};
-		body, err := json.Marshal(rt)
-		if err != nil {
-			panic(err.Error())
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+		if err := json.NewEncoder(w).Encode(rt); err != nil {
+			panic(err)
 		}
-		w.Header().Set("Content-Type", "application/json")
-		fmt.Fprintf(w, string(body));
 	})
 	hostAndPort := "localhost:8081"
 	http.ListenAndServe(hostAndPort, nil)
