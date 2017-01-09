@@ -4,10 +4,11 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"log"
+	"fmt"
 )
 
 func main() {
-
+	fmt.Println("Server now listen on http://localhost:8080")
 	http.ListenAndServe(":8080", &httputil.ReverseProxy{
 		Director: func(r *http.Request) {
 			log.Printf("httplog> %v %v %v (%q)", r.RemoteAddr, r.Method, r.Host, r.RequestURI)
