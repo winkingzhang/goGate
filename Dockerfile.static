@@ -1,8 +1,8 @@
-FROM golang:1.7.4-alpine
+FROM scratch
 
 MAINTAINER Zhang Wenqing "winking.zhang@grapecity.com"
 
-COPY ./dist /go/bin
+COPY ./dist /bin
 
 EXPOSE 8080
 
