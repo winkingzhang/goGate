@@ -96,7 +96,7 @@ func everythingHandle(w http.ResponseWriter, r *http.Request) {
 		<title>{{.Title}}</title>
 	</head>
 	<body>
-		<div><strong>Hello world, {{.Name}}</strong></div>
+		<div><strong>Hello golang, this is {{.Name}}</strong></div>
 	</body>
 </html>`
 		t, err := template.New("webpage").Parse(tpl)

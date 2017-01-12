@@ -23,6 +23,9 @@ _testmain.go
 *.test
 *.prof
 
+# temp files
+~$*
+
 # Jetbrains project
 .idea/
 *.iml
