@@ -2,8 +2,8 @@ FROM scratch
 
 MAINTAINER Zhang Wenqing "winking.zhang@grapecity.com"
 
-COPY ./dist /bin
+COPY ./dist/static /app
 
 EXPOSE 8080
 
-CMD ["goGate"]
+CMD ["/app/goGate"]

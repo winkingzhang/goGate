@@ -7,7 +7,7 @@ then
 fi
 
 CGO_ENABLED=0
-GOOS=linux
+#GOOS=linux
 
 case $TARGET in
     build)
@@ -16,7 +16,8 @@ case $TARGET in
         ;;
     buildstatic)
         rm -rf dist
-        go build -ldflags "-s" -a -installsuffix cgo -o dist/goGate main.go
+        mkdir -p dist/static
+        go build -ldflags "-s" -a -tags netgo -installsuffix netgo -o dist/static/goGate main.go
         ;;
     builddocker)
         rm -rf dist
@@ -24,11 +25,14 @@ case $TARGET in
         ;;
     builddockeralpine)
         rm -rf dist
-        go build -a -installsuffix cgo -o dist/goGate main.go
+        mkdir -p dist/alpine
+        go build -a -tags netgo -installsuffix netgo -o dist/alpine/goGate main.go
         docker build -t "winkingzhang/gogate:alpine" -f Dockerfile.alpine .
         ;;
     builddockerstatic)
-        go build -ldflags "-s" -a -installsuffix cgo -o dist/goGate main.go
+        rm -rf dist
+        mkdir -p dist/static
+        go build -ldflags "-s" -a -tags netgo -installsuffix netgo -o dist/static/goGate main.go
         docker build -t "winkingzhang/gogate:static" -f Dockerfile.static .
         ;;
     *)

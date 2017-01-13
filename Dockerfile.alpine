@@ -2,8 +2,8 @@ FROM golang:1.7.4-alpine
 
 MAINTAINER Zhang Wenqing "winking.zhang@grapecity.com"
 
-COPY ./dist /go/bin
+COPY ./dist/alpine /go/bin
 
 EXPOSE 8080
 
-CMD ["goGate"]
+CMD ["/go/bin/goGate"]
